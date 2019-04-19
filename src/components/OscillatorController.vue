@@ -1,6 +1,10 @@
 <template>
   <div class="flex flex-col w-1/2 px-5 mb-10">
-    <h2 class="text-left mb-6">Oscillator #{{ index + 1 }}</h2>
+    <div class="mb-6 flex justify-between items-center">
+      <h2>Oscillator #{{ index + 1 }}</h2>
+
+      <span class="cursor-pointer text-xl hover:text-red-light" @click="removeOscillator">X</span>
+    </div>
 
     <div class="flex flex-col items-start w-full">
       <span class="mb-2">Frequency</span>
@@ -8,7 +12,7 @@
       <vue-slider
         v-model="oscillator.frequency"
         :min="20"
-        :max="1200"
+        :max="600"
         :dot-options="dotOptions"
         :bg-style="sliderStyle"
         :process-style="sliderStyle"
@@ -73,6 +77,10 @@ export default {
   },
 
   methods: {
+    removeOscillator() {
+      this.$emit('removeOscillator');
+    },
+
     updateFrequency(val) {
       this.$emit('frequencyChange');
     },

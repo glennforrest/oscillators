@@ -24,6 +24,7 @@
         :oscillator="oscillator"
         @frequencyChange="updateOscillatorFrequency(oscillator)"
         @volumeChange="updateOscillatorVolume(oscillator)"
+        @removeOscillator="removeOscillator(oscillator, index)"
       />
     </div>
   </div>
@@ -108,6 +109,15 @@ export default {
 
     initiateAudioContext() {
       this.context.resume();
+    },
+
+    removeOscillator(oscillator, index) {
+      // Stop it playing if it is already
+      if (oscillator.instance !== null) {
+        this.stopOscillator(oscillator);
+      }
+
+      this.oscillators.splice(index, 1);
     },
 
     start() {
