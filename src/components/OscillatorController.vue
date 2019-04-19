@@ -29,17 +29,24 @@
       </div>
 
       <div class="flex flex-col items-start w-full">
-        <span class="mb-2 font-bold">Frequency</span>
+        <span class="mb-2 font-bold flex justify-between w-full items-end">
+          Frequency <small class="text-xs cursor-pointer transition hover:text-green" @click="toggleFrequencyControl">Toggle control</small>
+        </span>
 
-        <vue-slider
-          v-model="oscillator.frequency"
-          :min="0"
-          :max="600"
-          :dot-options="dotOptions"
-          :bg-style="sliderStyle"
-          :process-style="sliderStyle"
-          @change="updateFrequency"
-        />
+        <transition name="fade" mode="out-in">
+          <vue-slider
+            v-model="oscillator.frequency"
+            :min="0"
+            :max="600"
+            :dot-options="dotOptions"
+            :bg-style="sliderStyle"
+            :process-style="sliderStyle"
+            @change="updateFrequency"
+            v-if="frequencyControl == 'slider'"
+          />
+
+          <input v-else class="text-black py-2 px-4 w-32 text-center" type="number" min="0" max="600" v-model="oscillator.frequency" @input="updateFrequency" />
+        </transition>
       </div>
 
       <div class="flex flex-col items-start w-full mt-4">
@@ -86,6 +93,7 @@ export default {
 
   data() {
     return {
+      frequencyControl: 'slider',
       dotOptions: {
         style: {
           borderColor: '#51d88a',
@@ -110,6 +118,14 @@ export default {
   },
 
   methods: {
+    toggleFrequencyControl() {
+      if (this.frequencyControl == 'slider') {
+        this.frequencyControl = 'input';
+      } else {
+        this.frequencyControl = 'slider';
+      }
+    },
+
     changeWaveType() {
       this.$emit('changeWaveType');
     },

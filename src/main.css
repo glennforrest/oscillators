@@ -18,6 +18,10 @@ a:hover {
   transition: var(--transition);
 }
 
+.transition {
+  transition: var(--transition);
+}
+
 .button {
   @apply cursor-pointer px-6 py-4 rounded font-medium;
 
@@ -42,6 +46,17 @@ a:hover {
 
 .button:focus {
   @apply outline-none;
+}
+
+/**
+ * Animations
+ */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
 @tailwind utilities;
