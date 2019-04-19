@@ -23,7 +23,7 @@ a:hover {
 }
 
 .button {
-  @apply cursor-pointer px-6 py-4 rounded font-medium;
+  @apply cursor-pointer px-6 py-4 rounded font-medium whitespace-no-wrap;
 
   transition: var(--transition);
 }

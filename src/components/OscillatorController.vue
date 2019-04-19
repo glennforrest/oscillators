@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-1/2 px-5 mb-10">
+  <div class="flex flex-col w-full md:w-1/2 px-5 mb-10">
     <div class="px-5 flex justify-between items-center pb-2 border-b-2 border-green border-solid bg-black">
       <h2>
         Oscillator #{{ index + 1 }}
