@@ -1,4 +1,4 @@
-# vue-audio
+# Oscillators
 
 ## Project setup
 ```
