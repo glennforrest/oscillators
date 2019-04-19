@@ -25,6 +25,7 @@
         @frequencyChange="updateOscillatorFrequency(oscillator)"
         @volumeChange="updateOscillatorVolume(oscillator)"
         @removeOscillator="removeOscillator(oscillator, index)"
+        @changeWaveType="changeWaveType(oscillator)"
       />
     </div>
   </div>
@@ -73,6 +74,14 @@ export default {
       if (this.playing) {
         this.createOscillator(this.oscillators[this.oscillators.length - 1]);
       }
+    },
+
+    changeWaveType(oscillator) {
+      if (oscillator.instance === null) {
+        return;
+      }
+
+      oscillator.instance.type = oscillator.type;
     },
 
     createGainNode(volume) {
