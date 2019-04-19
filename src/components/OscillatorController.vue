@@ -5,12 +5,27 @@
 
       <vue-slider
         v-model="oscillator.frequency"
-        :min="0"
-        :max="880"
+        :min="20"
+        :max="1200"
         :dot-options="dotOptions"
         :bg-style="sliderStyle"
         :process-style="sliderStyle"
         @change="updateFrequency"
+      />
+    </div>
+
+    <div class="flex flex-col items-start w-full mt-4">
+      <span class="mb-2">Volume</span>
+
+      <vue-slider
+        v-model="oscillator.volume"
+        :min="0"
+        :max="1"
+        :interval="0.01"
+        :dot-options="dotOptions"
+        :bg-style="sliderStyle"
+        :process-style="sliderStyle"
+        @change="updateVolume"
       />
     </div>
   </div>
@@ -53,6 +68,10 @@ export default {
   methods: {
     updateFrequency(val) {
       this.$emit('frequencyChange');
+    },
+
+    updateVolume(val) {
+      this.$emit('volumeChange');
     },
   },
 }

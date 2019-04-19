@@ -16,6 +16,7 @@
         :key="index"
         :oscillator="oscillator"
         @frequencyChange="updateOscillatorFrequency(oscillator)"
+        @volumeChange="updateOscillatorVolume(oscillator)"
       />
     </div>
   </div>
@@ -115,9 +116,24 @@ export default {
       }
 
       // Set new frequency
-      oscillator.instance.frequency.setValueAtTime(
+      oscillator.instance.frequency.setTargetAtTime(
         oscillator.frequency,
-        this.context.currentTime
+        this.context.currentTime,
+        0.015
+      );
+    },
+
+    updateOscillatorVolume(oscillator) {
+      // Don't update anything if there isn't an instance running
+      if (oscillator.instance === null) {
+        return;
+      }
+
+      // Update the volume on the gain node.
+      oscillator.gainNode.gain.setTargetAtTime(
+        oscillator.volume,
+        this.context.currentTime,
+        0.015
       );
     }
   },
