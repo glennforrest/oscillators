@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex flex-col">
     <div class="flex">
       <button-primary @click="start" class="mr-4">
         Start Oscillator
@@ -8,6 +8,15 @@
       <button-secondary @click="stop">
         Stop Oscillator
       </button-secondary>
+    </div>
+
+    <div class="flex mt-16">
+      <oscillator-controller
+        v-for="(oscillator, index) in oscillators"
+        :key="index"
+        :oscillator="oscillator"
+        @frequencyChange="updateOscillatorFrequency(oscillator)"
+      />
     </div>
   </div>
 </template>
@@ -22,8 +31,9 @@ export default {
         {
           type: 'sine',
           frequency: 160,
-          instance: null,
           volume: 0.15,
+          instance: null,
+          gainNode: null,
         },
       ],
     };
@@ -40,22 +50,21 @@ export default {
   },
 
   methods: {
-    createGain(volume) {
-      const gain = this.context.createGain();
+    createGainNode(volume) {
+      const gainNode = this.context.createGain();
 
-      gain.connect(this.context.destination);
-      gain.gain.value = volume;
+      gainNode.connect(this.context.destination);
 
-      return gain;
+      return gainNode;
     },
 
     createOscillator(oscillator) {
       const osc = oscillator.instance = this.context.createOscillator();
 
+      oscillator.gainNode = this.createGainNode();
+
       // Connect to the gain node
-      osc.connect(
-        this.createGain(oscillator.volume)
-      );
+      osc.connect(oscillator.gainNode);
 
       // Set wave type
       osc.type = oscillator.type;
@@ -63,13 +72,18 @@ export default {
       // Set frequency
       osc.frequency.value = oscillator.frequency;
 
-      // Start it up
+      // Set initial value to 0
+      oscillator.gainNode.gain.value = 0;
+
+      // Start up the oscillator
       osc.start();
+
+      // Introduce volume to gain node
+      oscillator.gainNode.gain.setTargetAtTime(oscillator.volume, this.context.currentTime, 0.015);
     },
 
     initiateAudioContext() {
       this.context.resume();
-
     },
 
     start() {
@@ -86,12 +100,26 @@ export default {
     },
 
     stopOscillator(oscillator) {
-      // Stop the oscillator from generating output.
-      oscillator.instance.stop();
+      // Removes the click when stopping the oscillator
+      oscillator.gainNode.gain.setTargetAtTime(0, this.context.currentTime, 0.015);
 
       // Reset the instance so that we can create another one
       oscillator.instance = null;
+      oscillator.gainNode = null
     },
+
+    updateOscillatorFrequency(oscillator) {
+      // Don't update anything if there isn't an instance running
+      if (oscillator.instance === null) {
+        return;
+      }
+
+      // Set new frequency
+      oscillator.instance.frequency.setValueAtTime(
+        oscillator.frequency,
+        this.context.currentTime
+      );
+    }
   },
 };
 </script>

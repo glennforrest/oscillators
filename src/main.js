@@ -7,8 +7,12 @@ import './main.css';
 
 Vue.config.productionTip = false;
 
+// Elements
 Vue.component('button-primary', () => import('@/elements/ButtonPrimary.vue' /* webpackChunkName: 'button-primary' */));
 Vue.component('button-secondary', () => import('@/elements/ButtonSecondary.vue' /* webpackChunkName: 'button-secondary' */));
+
+// Oscillator Components
+Vue.component('oscillator-controller', () => import('@/components/OscillatorController.vue' /* webpackChunkName: 'oscillator-controller' */));
 
 new Vue({
   router,
