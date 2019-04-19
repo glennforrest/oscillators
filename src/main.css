@@ -1,0 +1,47 @@
+@tailwind preflight;
+@tailwind components;
+
+:root {
+  --transition: all 0.15s ease-out;
+}
+
+* {
+  @apply text-white;
+}
+
+a {
+  @apply no-underline;
+}
+
+a:hover {
+  @apply text-green;
+  transition: var(--transition);
+}
+
+.button {
+  @apply cursor-pointer px-6 py-4 rounded;
+
+  transition: var(--transition);
+}
+
+.button-primary {
+  @apply bg-green;
+}
+
+.button-primary:hover {
+  @apply bg-green-light;
+}
+
+.button-secondary {
+  @apply bg-white text-green;
+}
+
+.button-secondary:hover {
+  @apply bg-green-lightest;
+}
+
+.button:focus {
+  @apply outline-none;
+}
+
+@tailwind utilities;
