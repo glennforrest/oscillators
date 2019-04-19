@@ -1,5 +1,7 @@
 <template>
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col w-1/2 px-5 mb-10">
+    <h2 class="text-left mb-6">Oscillator #{{ index + 1 }}</h2>
+
     <div class="flex flex-col items-start w-full">
       <span class="mb-2">Frequency</span>
 
@@ -41,6 +43,11 @@ export default {
   },
 
   props: {
+    index: {
+      required: true,
+      type: Number,
+    },
+
     oscillator: {
       required: true,
       type: Object,

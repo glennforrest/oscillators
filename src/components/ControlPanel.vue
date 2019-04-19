@@ -1,19 +1,26 @@
 <template>
   <div class="flex flex-col">
-    <div class="flex">
-      <button-primary @click="start" class="mr-4">
-        Start Oscillator
-      </button-primary>
+    <div class="flex justify-between">
+      <div class="flex">
+        <button-primary @click="start" class="mr-4">
+          Start Oscillators
+        </button-primary>
 
-      <button-secondary @click="stop">
-        Stop Oscillator
-      </button-secondary>
+        <button-secondary @click="stop">
+          Stop Oscillators
+        </button-secondary>
+      </div>
+
+      <div class="flex">
+        <button-primary @click="addOscillator">Add Oscillator +</button-primary>
+      </div>
     </div>
 
-    <div class="flex mt-16">
+    <div class="flex flex-wrap mt-16 -mx-5">
       <oscillator-controller
         v-for="(oscillator, index) in oscillators"
         :key="index"
+        :index="index"
         :oscillator="oscillator"
         @frequencyChange="updateOscillatorFrequency(oscillator)"
         @volumeChange="updateOscillatorVolume(oscillator)"
@@ -28,6 +35,7 @@ export default {
     return {
       context: null,
       audioInitiated: false,
+      playing: false,
       oscillators: [
         {
           type: 'sine',
@@ -51,6 +59,21 @@ export default {
   },
 
   methods: {
+    addOscillator() {
+      this.oscillators.push({
+        type: 'sine',
+        frequency: 160,
+        volume: 0.15,
+        instance: null,
+        gainNode: null,
+      });
+
+      // If we're making noise, instantiate this new oscillator
+      if (this.playing) {
+        this.createOscillator(this.oscillators[this.oscillators.length - 1]);
+      }
+    },
+
     createGainNode(volume) {
       const gainNode = this.context.createGain();
 
@@ -92,12 +115,16 @@ export default {
         this.initiateAudioContext();
       }
 
+      this.playing = true;
+
       this.oscillators.filter(oscillator => oscillator.instance === null)
         .forEach(oscillator => this.createOscillator(oscillator));
     },
 
     stop() {
       this.connectedOscillators.forEach(oscillator => this.stopOscillator(oscillator));
+
+      this.playing = false;
     },
 
     stopOscillator(oscillator) {
