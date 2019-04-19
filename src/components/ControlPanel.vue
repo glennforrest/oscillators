@@ -69,6 +69,7 @@ export default {
 
     initiateAudioContext() {
       this.context.resume();
+
     },
 
     start() {
