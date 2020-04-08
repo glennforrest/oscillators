@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-col w-full md:w-1/2 px-5 mb-10">
-    <div class="px-5 flex justify-between items-center pb-2 border-b-2 border-green border-solid bg-black">
+    <div class="px-5 flex justify-between items-center pb-2 border-b-2 border-green-500 border-solid bg-grey-900">
       <h2>
         Oscillator #{{ index + 1 }}
       </h2>
 
-      <span class="cursor-pointer text-xl hover:text-red-light" @click="removeOscillator">
+      <span class="cursor-pointer text-xl hover:text-red-300" @click="removeOscillator">
         X
       </span>
     </div>
 
-    <div class="bg-grey-darkest flex flex-col p-5">
+    <div class="bg-gray-800 flex flex-col p-5">
       <div class="flex flex-col mb-6">
         <span class="mb-3 text-left font-bold">Wave Type</span>
 
@@ -22,7 +22,7 @@
           Frequency
 
           <small
-            class="text-xs cursor-pointer transition hover:text-green"
+            class="text-xs cursor-pointer transition duration-150 hover:text-green-500"
             @click="toggleFrequencyControl"
           >Toggle control</small>
         </span>

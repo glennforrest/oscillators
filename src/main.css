@@ -1,9 +1,5 @@
-@tailwind preflight;
+@tailwind base;
 @tailwind components;
-
-:root {
-  --transition: all 0.15s ease-out;
-}
 
 * {
   @apply text-white;
@@ -14,34 +10,27 @@ a {
 }
 
 a:hover {
-  @apply text-green;
-  transition: var(--transition);
-}
-
-.transition {
-  transition: var(--transition);
+  @apply text-green-500 transition duration-150;
 }
 
 .button {
-  @apply cursor-pointer px-6 py-4 rounded font-medium whitespace-no-wrap;
-
-  transition: var(--transition);
+  @apply cursor-pointer px-6 py-4 rounded font-medium whitespace-no-wrap transition duration-150;
 }
 
 .button-primary {
-  @apply bg-green;
+  @apply bg-green-500;
 }
 
 .button-primary:hover {
-  @apply bg-green-light;
+  @apply bg-green-600;
 }
 
 .button-secondary {
-  @apply bg-white text-green;
+  @apply bg-white text-green-500;
 }
 
 .button-secondary:hover {
-  @apply bg-green-lightest;
+  @apply bg-green-200;
 }
 
 .button:focus {

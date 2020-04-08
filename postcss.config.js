@@ -4,7 +4,7 @@ const purgecss = require('@fullhuman/postcss-purgecss');
 
 module.exports = {
   plugins: [
-    tailwindcss('./tailwind.js'),
+    tailwindcss('./tailwind.config.js'),
     autoprefixer({
       add: true,
       grid: true,
