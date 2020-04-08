@@ -40,7 +40,7 @@ export default {
       playing: false,
       oscillators: [
         {
-          type: 'sine',
+          type: 'Sine',
           frequency: 160,
           volume: 0.15,
           instance: null,
@@ -63,7 +63,7 @@ export default {
   methods: {
     addOscillator() {
       this.oscillators.push({
-        type: 'sine',
+        type: 'Sine',
         frequency: 160,
         volume: 0.15,
         instance: null,

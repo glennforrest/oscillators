@@ -109,8 +109,10 @@
     },
 
     watch: {
-      'oscillator.type': () => {
-        this.$emit('changeWaveType');
+      'oscillator.type': {
+        handler() {
+          this.$emit('changeWaveType');
+        },
       },
     },
 

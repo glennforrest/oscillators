@@ -6,6 +6,8 @@ module.exports = {
       padding: '1rem',
     }
   },
-  variants: {},
+  variants: {
+    stroke: ['responsive', 'hover']
+  },
   plugins: [],
 }

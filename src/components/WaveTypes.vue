@@ -3,14 +3,13 @@
     <div
       v-for="(waveType, index) in waveTypes"
       :key="index"
-      class="cursor-pointer hover:opacity-75"
+      class="flex flex-col p-2 rounded-sm cursor-pointer transition duration-300 hover:bg-gray-700 hover:text-green-500"
+      :class="activeClass(waveType)"
       @click="setWaveType(waveType)"
     >
-      <div class="flex flex-col">
-        <component class="-my-2 h-16 w-16" :is="getWaveIcon(waveType)" />
+      <component class="-my-2 h-16 w-16" :is="getWaveIcon(waveType)" />
 
-        <span>{{ waveType }}</span>
-      </div>
+      {{ waveType }}
     </div>
   </div>
 </template>
@@ -29,6 +28,10 @@
       SquareWave,
     },
 
+    props: {
+      value: {},
+    },
+
     data() {
       return {
         waveTypes: [
@@ -41,12 +44,18 @@
     },
 
     methods: {
+      activeClass(type) {
+        return {
+          'bg-gray-700 text-green-500': type === this.value
+        }
+      },
+
       getWaveIcon(type) {
         return `${type}Wave`;
       },
 
       setWaveType(type) {
-        alert(type);
+        this.$emit('input', type)
       }
     }
   };
