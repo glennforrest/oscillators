@@ -14,23 +14,17 @@
       <div class="flex flex-col mb-6">
         <span class="mb-3 text-left font-bold">Wave Type</span>
 
-        <div class="flex flex-row">
-          <radio
-            v-for="(waveType, index) in waveTypes"
-            class="mr-6"
-            :key="index"
-            :value="waveType"
-            v-model="oscillator.type"
-            @input="changeWaveType"
-          >
-            {{ waveType }}
-          </radio>
-        </div>
+        <wave-types v-model="oscillator.type" />
       </div>
 
       <div class="flex flex-col items-start w-full">
         <span class="mb-2 font-bold flex justify-between w-full items-end">
-          Frequency <small class="text-xs cursor-pointer transition hover:text-green" @click="toggleFrequencyControl">Toggle control</small>
+          Frequency
+
+          <small
+            class="text-xs cursor-pointer transition hover:text-green"
+            @click="toggleFrequencyControl"
+          >Toggle control</small>
         </span>
 
         <transition name="fade" mode="out-in">
@@ -42,10 +36,17 @@
             :bg-style="sliderStyle"
             :process-style="sliderStyle"
             @change="updateFrequency"
-            v-if="frequencyControl == 'slider'"
+            v-if="frequencyControl === 'slider'"
           />
 
-          <input v-else class="text-black py-2 px-4 w-32 text-center" type="number" min="0" max="600" v-model="oscillator.frequency" @input="updateFrequency" />
+          <input v-else
+            class="text-black py-2 px-4 w-32 text-center"
+            type="number"
+            min="0"
+            max="600"
+            v-model="oscillator.frequency"
+            @input="updateFrequency"
+          />
         </transition>
       </div>
 
@@ -68,86 +69,77 @@
 </template>
 
 <script>
-import VueSlider from 'vue-slider-component';
-import 'vue-slider-component/theme/antd.css';
+  import VueSlider from 'vue-slider-component';
+  import 'vue-slider-component/theme/antd.css';
 
-import { Radio } from 'vue-checkbox-radio';
-
-export default {
-  components: {
-    Radio,
-    VueSlider,
-  },
-
-  props: {
-    index: {
-      required: true,
-      type: Number,
+  export default {
+    components: {
+      VueSlider,
     },
 
-    oscillator: {
-      required: true,
-      type: Object,
-    },
-  },
-
-  data() {
-    return {
-      frequencyControl: 'slider',
-      dotOptions: {
-        style: {
-          borderColor: '#51d88a',
-        },
-
-        focusStyle: {
-          boxShadow: '0 0 0 5px rgba(81, 216, 138, 0.2)',
-        },
+    props: {
+      index: {
+        required: true,
+        type: Number,
       },
 
-      sliderStyle: {
-        background: '#38c172',
+      oscillator: {
+        required: true,
+        type: Object,
+      },
+    },
+
+    data() {
+      return {
+        frequencyControl: 'slider',
+        dotOptions: {
+          style: {
+            borderColor: '#51d88a',
+          },
+
+          focusStyle: {
+            boxShadow: '0 0 0 5px rgba(81, 216, 138, 0.2)',
+          },
+        },
+
+        sliderStyle: {
+          background: '#38c172',
+        },
+      };
+    },
+
+    watch: {
+      'oscillator.type': () => {
+        this.$emit('changeWaveType');
+      },
+    },
+
+    methods: {
+      toggleFrequencyControl() {
+        if (this.frequencyControl === 'slider') {
+          this.frequencyControl = 'input';
+        } else {
+          this.frequencyControl = 'slider';
+        }
       },
 
-      waveTypes: [
-        'sine',
-        'sawtooth',
-        'triangle',
-        'square',
-      ],
-    };
-  },
+      removeOscillator() {
+        this.$emit('removeOscillator');
+      },
 
-  methods: {
-    toggleFrequencyControl() {
-      if (this.frequencyControl == 'slider') {
-        this.frequencyControl = 'input';
-      } else {
-        this.frequencyControl = 'slider';
-      }
-    },
+      updateFrequency() {
+        this.$emit('frequencyChange');
+      },
 
-    changeWaveType() {
-      this.$emit('changeWaveType');
+      updateVolume() {
+        this.$emit('volumeChange');
+      },
     },
-
-    removeOscillator() {
-      this.$emit('removeOscillator');
-    },
-
-    updateFrequency(val) {
-      this.$emit('frequencyChange');
-    },
-
-    updateVolume(val) {
-      this.$emit('volumeChange');
-    },
-  },
-}
+  };
 </script>
 
-<style scoped lang="scss">
-.vue-slider {
-  width: 100% !important;
-}
+<style lang="scss">
+  .vue-slider {
+    width: 100% !important;
+  }
 </style>
-

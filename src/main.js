@@ -13,6 +13,7 @@ Vue.component('button-secondary', () => import('@/elements/ButtonSecondary.vue' 
 
 // Oscillator Components
 Vue.component('oscillator-controller', () => import('@/components/OscillatorController.vue' /* webpackChunkName: 'oscillator-controller' */));
+Vue.component('wave-types', () => import('@/components/WaveTypes.vue' /* webpackChunkName: 'wave-types' */));
 
 new Vue({
   router,
