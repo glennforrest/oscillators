@@ -81,7 +81,7 @@ export default {
         return;
       }
 
-      oscillator.instance.type = oscillator.type;
+      oscillator.instance.type = oscillator.type.toLowerCase();
     },
 
     createGainNode(volume) {

@@ -50,6 +50,26 @@
         </transition>
       </div>
 
+      <div class="mt-4">
+        <div class="flex flex-col">
+          <div class="w-full mb-3" v-for="(note, index) in notes" :key="index">
+            <h4 class="text-2xl text-left mb-2">{{ note.name }}</h4>
+
+            <div class="flex md:flex-row md:flex-wrap md:-mx-1">
+              <div
+                v-for="(frequency, frequencyIndex) in note.frequencies"
+                :key="`${note.name}-${frequencyIndex}`"
+                class="md:px-1 mb-2"
+              >
+                <button-secondary @click="changeFrequency(frequency)">
+                  {{ note.name }}{{ frequencyIndex }}
+                </button-secondary>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="flex flex-col items-start w-full mt-4">
         <span class="mb-2 font-bold">Volume</span>
 
@@ -71,6 +91,7 @@
 <script>
   import VueSlider from 'vue-slider-component';
   import 'vue-slider-component/theme/antd.css';
+  import noteFrequencies from '../data/note-frequencies.json';
 
   export default {
     components: {
@@ -105,7 +126,24 @@
         sliderStyle: {
           background: '#38c172',
         },
+
+        noteFrequencies,
       };
+    },
+
+    computed: {
+      notes() {
+        let notes = [];
+
+        Object.keys(this.noteFrequencies).forEach(note => {
+          notes.push({
+            name: note,
+            frequencies: this.noteFrequencies[note],
+          });
+        });
+
+        return notes;
+      },
     },
 
     watch: {
@@ -117,6 +155,12 @@
     },
 
     methods: {
+      changeFrequency(frequency) {
+        this.oscillator.frequency = frequency;
+
+        this.$emit('frequencyChange');
+      },
+
       toggleFrequencyControl() {
         if (this.frequencyControl === 'slider') {
           this.frequencyControl = 'input';
