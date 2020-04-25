@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex text-white flex-col">
     <div class="flex flex-col md:flex-row justify-between">
       <div class="flex">
         <button-primary @click="start" class="mr-4">
@@ -84,7 +84,7 @@ export default {
       oscillator.instance.type = oscillator.type.toLowerCase();
     },
 
-    createGainNode(volume) {
+    createGainNode() {
       const gainNode = this.context.createGain();
 
       gainNode.connect(this.context.destination);

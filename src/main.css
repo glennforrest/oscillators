@@ -5,16 +5,12 @@ a {
   @apply no-underline;
 }
 
-p, label, h1, h2, h3, h4, h5, h6, span, div {
-  @apply text-white;
-}
-
 a:hover {
   @apply text-green-500 transition duration-150;
 }
 
 .button {
-  @apply cursor-pointer px-6 py-4 rounded font-medium whitespace-no-wrap transition duration-150;
+  @apply cursor-pointer px-5 py-2 rounded font-medium whitespace-no-wrap transition duration-150;
 }
 
 .button-primary {
